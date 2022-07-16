@@ -42,6 +42,21 @@ class ClienteController extends Controller{
         echo $mensaje;
     }
 
+    public function clienteUpdate($idCliente){
+        $cliente = new Cliente;
+        $nombreCliente = $_POST["nombreCliente"];
+        $direccion = $_POST["direccion"];
+        $numTelef = $_POST["numTelef"];
+        $correo = $_POST["correo"];
+        $cliente->setIdCliente($idCliente);
+        $cliente->setNombreCliente($nombreCliente);
+        $cliente->setDireccion($direccion);
+        $cliente->setNumTelef($numTelef);
+        $cliente->setCorreo($correo);
+        $mensaje = $this->clienteModelo->clienteUpdate($cliente);
+        echo $mensaje;
+    }
+
     public function index(){
         echo "Hola mundo";
     }

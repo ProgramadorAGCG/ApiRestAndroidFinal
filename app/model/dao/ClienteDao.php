@@ -103,6 +103,37 @@ class ClienteDao{
         return $this->mensaje;
     }
 
+    public function clienteUpdate($Cliente){
+        $sql = "UPDATE cliente SET nombreCliente = :nombreCliente, direccion = :direccion, numTelef = :numTelef, correo= :correo WHERE idCliente = :idCliente";
+        try {
+            $puente = $this->connection->getConnection();
+            $consultaPreparada = $puente->prepare($sql);
+            $nombreCliente = $Cliente->getNombreCliente();
+            $direccion = $Cliente->getDireccion();
+            $numTelef = $Cliente->getNumTelef();
+            $correo = $Cliente->getCorreo();
+            $idCliente = $Cliente->getIdCliente();
+            $consultaPreparada->bindParam(':nombreCliente', $nombreCliente, PDO::PARAM_STR);
+            $consultaPreparada->bindParam(':direccion', $direccion, PDO::PARAM_STR);
+            $consultaPreparada->bindParam(':numTelef', $numTelef, PDO::PARAM_STR);
+            $consultaPreparada->bindParam(':correo', $correo, PDO::PARAM_STR);
+            $consultaPreparada->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
+            if ($consultaPreparada->execute()) {
+                if ($consultaPreparada->rowCount() === 0) {
+                    $this->mensaje = "No se ha actualizado ningun Cliente";
+                }else{
+                    $this->mensaje = "Se ha actualizado correctamente";
+                }
+            }
+            $consultaPreparada->closeCursor();
+        } catch (Exception $e) {
+            $this->mensaje = $e->getMessage();
+        } finally {
+            $puente = NULL;
+        }
+        return $this->mensaje;
+    }
+
     public function getMensaje(){
         return $this->mensaje;
     }
