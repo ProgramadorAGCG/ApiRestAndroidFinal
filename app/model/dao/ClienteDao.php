@@ -134,6 +134,35 @@ class ClienteDao{
         return $this->mensaje;
     }
 
+    public function obtenerUltimoCliente(){
+        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM `cliente` ORDER BY idCliente DESC LIMIT 1";
+        $Cliente = NULL;
+        try {
+            $puente = $this->connection->getConnection();
+            $consultaPreparada = $puente->prepare($sql);
+            if ($consultaPreparada->execute()) {
+                if ($fila = $consultaPreparada->fetch(PDO::FETCH_ASSOC)) {
+                    $Cliente=new Cliente;
+                    $Cliente->setIdCliente($fila["idCliente"]);
+                    $Cliente->setNombreCliente($fila["nombreCliente"]);
+                    $Cliente->setDireccion($fila["direccion"]);
+                    $Cliente->setNumTelef($fila["numTelef"]);
+                    $Cliente->setCorreo($fila["correo"]);
+                } else {
+                    $this->mensaje = "No se ha encontrado ningún cliente";
+                }
+            } else {
+                $this->mensaje = "Error en la ejecucion de la consulta";
+            }
+            $consultaPreparada->closeCursor();
+        } catch (Exception $e) {
+            $this->mensaje = $e->getMessage();
+        } finally {
+            $puente = NULL;
+        }
+        return $Cliente;
+    }
+
     public function getMensaje(){
         return $this->mensaje;
     }

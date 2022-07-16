@@ -57,6 +57,14 @@ class ClienteController extends Controller{
         echo $mensaje;
     }
 
+    public function obtenerUltimoCliente(){
+        $cliente = $this->clienteModelo->obtenerUltimoCliente();
+        if(is_null($cliente))
+            echo $this->clienteModelo->getMensaje();
+        else
+            echo json_encode(["cliente"=>$cliente]);
+    }
+
     public function index(){
         echo "Hola mundo";
     }
