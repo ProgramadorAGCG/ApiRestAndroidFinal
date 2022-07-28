@@ -64,8 +64,4 @@ class ClienteController extends Controller{
         else
             echo json_encode(["cliente"=>$cliente]);
     }
-
-    public function index(){
-        echo "Hola mundo";
-    }
 }
