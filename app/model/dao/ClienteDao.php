@@ -11,14 +11,13 @@ class ClienteDao{
         $this->connection=new Connection;
     }
 
-    public function clienteLogin($correo, $password){
-        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo, password FROM Cliente WHERE correo = :correo AND password = AES_ENCRYPT(:password, :password)";
+    public function clienteLogin($correo){
+        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM Cliente WHERE correo = :correo";
         $Cliente = NULL;
         try {
             $puente = $this->connection->getConnection();
             $consultaPreparada = $puente->prepare($sql);
             $consultaPreparada->bindParam(':correo', $correo, PDO::PARAM_STR);
-            $consultaPreparada->bindParam(':password',$password, PDO::PARAM_STR);
             if ($consultaPreparada->execute()) {
                 if ($fila = $consultaPreparada->fetch(PDO::FETCH_ASSOC)) {
                     $Cliente=new Cliente;
@@ -43,7 +42,7 @@ class ClienteDao{
     }
 
     public function clientePerfil($idCliente){
-        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo, password FROM Cliente WHERE idCliente = :idCliente";
+        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM Cliente WHERE idCliente = :idCliente";
         $Cliente = NULL;
         try {
             $puente = $this->connection->getConnection();
@@ -73,7 +72,7 @@ class ClienteDao{
     }
 
     public function clienteIns($Cliente){
-        $sql = "INSERT INTO cliente(nombreCliente, direccion, numTelef, correo, password) VALUES(:nombreCliente,:direccion, :numTelef, :correo, AES_ENCRYPT(:password, :password));";
+        $sql = "INSERT INTO cliente(nombreCliente, direccion, numTelef, correo) VALUES(:nombreCliente,:direccion, :numTelef, :correo);";
         try {
             $puente = $this->connection->getConnection();
             $consultaPreparada = $puente->prepare($sql);
@@ -81,12 +80,10 @@ class ClienteDao{
             $direccion = $Cliente->getDireccion();
             $numTelef = $Cliente->getNumTelef();
             $correo = $Cliente->getCorreo();
-            $contraseña = $Cliente->getPassword();
             $consultaPreparada->bindParam(':nombreCliente', $nombreCliente, PDO::PARAM_STR);
             $consultaPreparada->bindParam(':direccion', $direccion, PDO::PARAM_STR);
             $consultaPreparada->bindParam(':numTelef', $numTelef, PDO::PARAM_STR);
             $consultaPreparada->bindParam(':correo', $correo, PDO::PARAM_STR);
-            $consultaPreparada->bindParam(':password', $contraseña, PDO::PARAM_STR);
             if ($consultaPreparada->execute()) {
                 if ($consultaPreparada->rowCount() === 0) {
                     $this->mensaje = "No se ha insertado ningun Cliente";

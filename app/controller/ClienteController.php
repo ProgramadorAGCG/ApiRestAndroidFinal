@@ -18,8 +18,7 @@ class ClienteController extends Controller{
 
     public function clienteLogin(){
         $correo = $_POST["correo"];
-        $password = $_POST["password"];
-        $cliente = $this->clienteModelo->clienteLogin($correo, $password);
+        $cliente = $this->clienteModelo->clienteLogin($correo);
         if(is_null($cliente))
             echo $this->clienteModelo->getMensaje();
         else
@@ -32,12 +31,10 @@ class ClienteController extends Controller{
         $direccion = $_POST["direccion"];
         $numTelef = $_POST["numTelef"];
         $correo = $_POST["correo"];
-        $password = $_POST["password"];
         $cliente->setNombreCliente($nombreCliente);
         $cliente->setDireccion($direccion);
         $cliente->setNumTelef($numTelef);
         $cliente->setCorreo($correo);
-        $cliente->setPassword($password);
         $mensaje = $this->clienteModelo->clienteIns($cliente);
         echo $mensaje;
     }

@@ -8,6 +8,19 @@ class DetalleOrdenController extends Controller{
         $this->detalleOrdenModelo=$this->model('DetalleOrdenDao');  
     }
 
+    public function mensajeWsp($idCliente){
+        $ordenModel = $this->model('OrdenDao');
+        $idOrden = $ordenModel->idOrdenFinalCliente($idCliente);
+
+        $datos = $this->detalleOrdenModelo->detalleFusion($idCliente, $idOrden);
+        if(is_null($datos)){
+            echo $this->detalleOrdenModelo->getMensaje();
+        }else{
+            echo json_encode($datos);
+        }
+
+    }
+
     public function detalleOrdenInsert(){
         $ordenModel = $this->model('OrdenDao');
         $idCliente = $_POST["idCliente"];

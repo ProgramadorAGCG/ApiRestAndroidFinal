@@ -7,7 +7,6 @@ class Cliente implements JsonSerializable{
     private $direccion;
     private $numTelef;
     private $correo;
-    private $password;
 
     public function jsonSerialize (){
 		return [
@@ -57,14 +56,6 @@ class Cliente implements JsonSerializable{
 
     public function setCorreo($correo){
         $this->correo = $correo;
-    }
-
-    public function getPassword(){
-        return $this->password;
-    }
-
-    public function setPassword($password){
-        $this->password = $password;
     }
     
 }
