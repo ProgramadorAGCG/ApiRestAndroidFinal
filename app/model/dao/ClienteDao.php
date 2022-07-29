@@ -12,7 +12,7 @@ class ClienteDao{
     }
 
     public function clienteLogin($correo){
-        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM Cliente WHERE correo = :correo";
+        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM cliente WHERE correo = :correo";
         $Cliente = NULL;
         try {
             $puente = $this->connection->getConnection();
@@ -42,7 +42,7 @@ class ClienteDao{
     }
 
     public function clientePerfil($idCliente){
-        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM Cliente WHERE idCliente = :idCliente";
+        $sql = "SELECT idCliente, nombreCliente, direccion, numTelef, correo FROM cliente WHERE idCliente = :idCliente";
         $Cliente = NULL;
         try {
             $puente = $this->connection->getConnection();

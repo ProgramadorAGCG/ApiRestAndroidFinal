@@ -62,7 +62,7 @@ class OrdenDao{
     }
 
     public function ordenInsert($Orden){
-        $sql = "INSERT INTO Orden(direccionOrden, fechaOrden, total, idCliente, tipoServicio) VALUES (:direccionOrden, :fechaOrden, :total, :idCliente, :tipoServicio)";
+        $sql = "INSERT INTO orden(direccionOrden, fechaOrden, total, idCliente, tipoServicio) VALUES (:direccionOrden, :fechaOrden, :total, :idCliente, :tipoServicio)";
         try {
             $puente = $this->connection->getConnection();
             $consultaPreparada = $puente->prepare($sql);
