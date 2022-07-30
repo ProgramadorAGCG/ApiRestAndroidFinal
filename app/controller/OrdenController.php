@@ -8,10 +8,19 @@ class OrdenController extends Controller{
         $this->ordenModelo=$this->model('OrdenDao');  
     }
 
+    public function ordenesActuales(){
+        $ordenes = $this->ordenModelo->ordenSelect();
+        if(is_null($ordenes)){
+            echo $this->ordenModel->getMensaje();
+        }else{
+            echo json_encode($ordenes);
+        }
+    }
+
     public function ultimoPedido($idCliente){
         $idOrden = $this->ordenModelo->idOrdenFinalCliente($idCliente);
         if(is_null($idOrden)){
-            echo "Error";
+            echo $this->ordenModel->getMensaje();
         }else{
             echo json_encode($idOrden);
         }

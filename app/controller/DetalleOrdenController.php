@@ -8,6 +8,15 @@ class DetalleOrdenController extends Controller{
         $this->detalleOrdenModelo=$this->model('DetalleOrdenDao');  
     }
 
+    public function detalleOrdenSelect($idOrden){
+        $detallesOrden = $this->detalleOrdenModelo->detalleOrdenSelect($idOrden);
+        if(is_null($detallesOrden)){
+            echo $this->detalleOrdenModelo->getMensaje();
+        }else{
+            echo json_encode($detallesOrden);
+        }
+    }
+
     public function detalleOrdenInsert(){
         $ordenModel = $this->model('OrdenDao');
         $idCliente = $_POST["idCliente"];

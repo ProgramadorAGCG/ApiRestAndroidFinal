@@ -11,6 +11,40 @@ class OrdenDao{
         $this->connection = new Connection;
     }
 
+    public function ordenSelect(){
+        $sql = "SELECT o.idOrden, o.direccionOrden, o.fechaOrden, o.total, o.tipoServicio, c.nombreCliente FROM orden as o INNER JOIN cliente as c ON c.idCliente = o.idCliente WHERE fechaOrden = CURDATE()";
+        $arreglo = [];
+        try {
+            $puente = $this->connection->getConnection();
+            $consultaPreparada = $puente->prepare($sql);
+            if ($consultaPreparada->execute()) {
+                $arreglo = array();
+                while ($fila = $consultaPreparada->fetch(PDO::FETCH_ASSOC)) {
+                    $elemento = [];
+                    $elemento[] = $fila["idOrden"];
+                    $elemento[] = $fila["direccionOrden"];
+                    $elemento[] = $fila["fechaOrden"];
+                    $elemento[] = $fila["total"];
+                    $elemento[] = $fila["tipoServicio"];
+                    $elemento[] = $fila["nombreCliente"];
+
+                    $arreglo[] = $elemento;
+                }
+                if (count($arreglo) === 0) {
+                    $this->mensaje = "No existen registros en la tabla producto";
+                }
+            } else {
+                $this->mensaje = "Error en la ejecucion de la consulta";
+            }
+            $consultaPreparada->closeCursor();
+        } catch (Exception $e) {
+            $this->mensaje = $e->getMessage();
+        } finally {
+            $puente = NULL;
+        }
+        return $arreglo;
+    }
+
     public function idOrdenFinalCliente($idCliente){
         $sql = "SELECT idOrden FROM orden WHERE idCliente = :idCliente ORDER BY idOrden desc LIMIT 1";
         $idOrden = NULL;
